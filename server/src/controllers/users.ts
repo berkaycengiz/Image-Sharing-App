@@ -30,15 +30,11 @@ export const deleteUser = async (req: express.Request, res: express.Response): P
 export const updateUser = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
         const {id} = req.params;
-        const {username} = req.body;
-
-        if(!username){
-            return res.sendStatus(400);
-        }
+        const {profilepic} = req.body;
 
         const user = await getUserById(id);
 
-        user.username = username;
+        user.profilepic = profilepic;
         await user.save();
         
         return res.status(200).json(user).end();
