@@ -21,3 +21,6 @@ export const useRegisterStore = create<RegisterState>((set) => ({
   setPassword: (password) => set({ password }),
   setConfirmPassword: (confirmPassword) => set({confirmPassword}),
 }));
+
+
+//I might use this later. It isn't necessary right now.
