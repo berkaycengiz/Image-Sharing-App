@@ -13,12 +13,12 @@ export const login = async (req: express.Request, res: express.Response): Promis
         const user = await getUserByEmail(email).select('+authentication.salt +authentication.password');
 
         if(!user){
-            return res.sendStatus(400);
+            return res.status(403).json({ message: 'Email or password is invalid.' });
         }
 
         const expectedHash = authentication(user.authentication.salt, password);
         if(expectedHash !== user.authentication.password){
-            return res.sendStatus(403);
+            return res.status(403).json({ message: 'Email or password is invalid.' });
         }
 
         const salt = random();
@@ -54,6 +54,10 @@ export const register = async (req: express.Request, res: express.Response): Pro
 
         if(existingUser2){
             return res.status(400).json({ message: 'Username already in use' });
+        }
+
+        if(password.length < 6){
+            return res.status(400).json({ message: 'Password must be at least 6 characters long.' })
         }
 
         const salt = random();

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRegisterStore } from "../store/registerStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../services/registerService";
 import SubmitButton from "../components/SubmitButton";
 
@@ -39,15 +39,11 @@ const Register: React.FC = () => {
       setError('Passwords do not match!');
       return;
     }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
-      return;
-    }
     try {
       await registerUser(username, email, password);
       navigate("/login");
     } catch (err: any) {
-      setError(err || "Registration failed!");
+      setError(err);
     }
   };
   
@@ -55,7 +51,7 @@ const Register: React.FC = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-white p-6 rounded-2xl shadow-secondary shadow-2xl w-97">
         <h2 className="text-xl self-center font-display font-bold text-primary mb-2">Register</h2>
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && <p className="text-error text-sm">{error}</p>}
         <input
           type="text"
           name="username"
@@ -88,9 +84,8 @@ const Register: React.FC = () => {
           onChange={handleChange}
           className="w-full px-3 py-2 border placeholder:text-secondary focus:outline-none focus:ring-1 focus:ring-primary text-secondary rounded mb-2"
         />
-        <a href="/login" className="underline text-secondary hover:text-hover transition">
-          Already registered?
-        </a>
+        <Link to="/login" className="underline text-secondary mb-2 font-display hover:text-hover transition">
+        Already registered?</Link>
         <SubmitButton>REGISTER</SubmitButton>
       </form>
     </div>

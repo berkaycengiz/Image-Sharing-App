@@ -8,7 +8,7 @@ const SliderCheckbox = () => {
   };
 
   return (
-    <div className="inline-flex items-center gap-2 mb-2">
+    <div className="inline-flex items-center gap-2">
       <label className="cursor-pointer">
         <input 
           type="checkbox"
@@ -28,7 +28,7 @@ const SliderCheckbox = () => {
               </span>
           </span>
       </label>  
-      <span className="text-sm font-normal text-secondary mb-1">
+      <span className="text-sm font-normal font-display text-secondary">
         Remember me
       </span>
     </div>
