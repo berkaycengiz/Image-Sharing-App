@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRegisterStore } from "../store/registerStore";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/registerService";
+import SubmitButton from "../components/SubmitButton";
 
 const Register: React.FC = () => {
 
@@ -17,19 +18,19 @@ const Register: React.FC = () => {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const setter = setters[event.target.name];
+    const { name, value } = event.target;
+    const setter = setters[name];
     if (setter) {
-      setter(event.target.value);
+      setter(value);
       setError("");
     }
-    if (event.target.name === 'password' && event.target.value.length < 6) {
+    if (name === 'password' && value.length < 6) {
       setError('Password must be at least 6 characters long.');
       return
     }
-    else if(event.target.name === 'confirmPassword' && event.target.value !== password){
+    else if(name === 'confirmPassword' && value !== password){
       setError('Passwords do not match!');
     }
-    console.log(event.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,7 +54,7 @@ const Register: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-white p-6 rounded-2xl shadow-secondary shadow-2xl w-97">
-        <h2 className="text-xl self-center font-display text-primary mb-2">Register</h2>
+        <h2 className="text-xl self-center font-display font-bold text-primary mb-2">Register</h2>
         {error && <p className="text-red-400 text-sm">{error}</p>}
         <input
           type="text"
@@ -90,11 +91,7 @@ const Register: React.FC = () => {
         <a href="/login" className="underline text-secondary hover:text-hover transition">
           Already registered?
         </a>
-        <button
-          type="submit"
-          className="w-full bg-secondary text-white py-2 rounded hover:bg-hover transition hover:cursor-pointer">
-          Register
-        </button>
+        <SubmitButton>REGISTER</SubmitButton>
       </form>
     </div>
   );
