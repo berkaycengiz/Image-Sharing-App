@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       await loginUser(email, password);
-      navigate("/home");
+      navigate("/");
     } catch (err: any) {
       setError(err);
     }
