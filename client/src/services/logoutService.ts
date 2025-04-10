@@ -7,7 +7,6 @@ export const logoutUser = async () => {
     const response = await axios.post(`${BASE_URL}/auth/logout`, {}, {
       withCredentials: true,
     });
-    localStorage.clear();
     console.log('Response:', response.data);
     return response.data;
   } 

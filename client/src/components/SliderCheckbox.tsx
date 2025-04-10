@@ -8,7 +8,7 @@ const SliderCheckbox = () => {
   };
 
   return (
-    <div className="inline-flex items-center gap-2">
+    <div className="inline-flex overflow-hidden items-center gap-2">
       <label className="cursor-pointer">
         <input 
           type="checkbox"
