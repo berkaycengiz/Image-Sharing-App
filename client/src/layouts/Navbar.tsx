@@ -3,12 +3,29 @@ import { Link } from "react-router-dom";
 import { logoutUser } from "../services/logoutService";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../store/loginStore";
+import { checkLoginStatus } from "../services/authService";
+import { useAuthStore } from "../store/authStore"
 // import Icon from '../assets/twogether-high-resolution-logo.svg';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const { username, email, setUsername, setEmail, clearUsername, clearEmail } = useLoginStore();
+
+  const { isLoggedIn, setLoggedIn } = useAuthStore(); 
+
+  useEffect(() => {
+    const handleLoginStatus = async () => {
+      const status = await checkLoginStatus();
+      if (status === 200) {
+        setLoggedIn(true);
+      } 
+      else {
+        setLoggedIn(false);
+      }
+    };
+    handleLoginStatus();
+  }, []);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
@@ -23,6 +40,7 @@ const Navbar: React.FC = () => {
     e.preventDefault();
     try {
       await logoutUser();
+      setLoggedIn(false);
       clearEmail();
       clearUsername();
       navigate("/");
@@ -41,24 +59,29 @@ const Navbar: React.FC = () => {
 
         <div className="h-full">
           <div className="flex h-full gap-8">
-            <Link to="/" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display  hover:text-primary">
-              {username} 
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
-            </Link>
-            <Link to={"/"} onClick={handleLogout} className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
-              Logout
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
-            </Link>
-          </div>
-          <div className="hidden h-full gap-8">
-            <Link to="/register" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
-              Register
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
-            </Link>
-            <Link to="/register" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
-              Login
-              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
-            </Link>
+            { isLoggedIn ? (
+              <>
+                <Link to="/" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display  hover:text-primary">
+                  {username} 
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
+                </Link>
+                <Link to="/login" onClick={handleLogout} className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
+                  Logout
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
+                </Link>
+              </>
+              ) : (
+              <>
+                <Link to="/register" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
+                  Register
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
+                </Link>
+                <Link to="/login" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
+                  Login
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

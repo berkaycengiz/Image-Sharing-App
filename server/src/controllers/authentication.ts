@@ -2,6 +2,28 @@ import express from "express";
 import { getUserByEmail, createUser, getUserBySessionToken, getUserByUsername } from "../db/users";
 import { authentication, random } from "../helpers";
 
+export const authMe = async (req: express.Request, res: express.Response): Promise<any> => {
+    try{
+        const sessionToken = req.cookies['COOKIE-AUTH'];
+
+        if (!sessionToken) {
+          return res.status(401).json({ message: 'Not authenticated' });
+        }
+    
+        const user = await getUserBySessionToken(sessionToken);
+    
+        if (!user) {
+          return res.status(401).json({ message: 'Invalid or expired session' });
+        }
+    
+        return res.sendStatus(200);
+    } 
+    catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+};
+
 export const login = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
         const {email, password} = req.body;
@@ -26,7 +48,13 @@ export const login = async (req: express.Request, res: express.Response): Promis
 
         await user.save();
 
-        res.cookie('COOKIE-AUTH', user.authentication.sessionToken, { domain: '.localhost', path: '/' });
+        res.cookie('COOKIE-AUTH', user.authentication.sessionToken, {
+                domain: '.localhost', 
+                path: '/', 
+                httpOnly: true,
+                sameSite: 'lax',
+                maxAge: 60 * 60 * 1000
+        });
 
         return res.status(200).json(user).end();
     }
