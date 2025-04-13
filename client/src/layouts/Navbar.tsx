@@ -10,7 +10,7 @@ import { useAuthStore } from "../store/authStore"
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { username, email, setUsername, setEmail, clearUsername, clearEmail } = useLoginStore();
+  const { username, setUsername, setEmail, clearUsername, clearEmail } = useLoginStore();
 
   const { isLoggedIn, setLoggedIn } = useAuthStore(); 
 
@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-background shadow-2xl 	uppercase shadow-secondary">
+    <nav className="bg-background shadow-2xl uppercase shadow-secondary">
       <div className="max-w-7xl mx-auto h-13 px-8 py-3 flex justify-between items-center">
         <Link to="/" className="relative group flex h-full transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
           Home

@@ -9,7 +9,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ children }) => {
   return (
     <button
     type="submit"
-    className="w-full font-display bg-secondary text-white py-2 rounded font-normal hover:bg-hover transition hover:cursor-pointer">
+    className="w-full font-display flex flex-col items-center bg-secondary text-white py-2 rounded font-normal hover:bg-hover transition hover:cursor-pointer">
         {children}
     </button>
   );

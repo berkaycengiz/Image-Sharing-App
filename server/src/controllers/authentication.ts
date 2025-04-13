@@ -26,7 +26,8 @@ export const authMe = async (req: express.Request, res: express.Response): Promi
 
 export const login = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
-        const {email, password} = req.body;
+        const {email, password, rememberMe} = req.body;
+        console.log(rememberMe)
 
         if(!email || !password){
             return res.sendStatus(400);
@@ -53,9 +54,8 @@ export const login = async (req: express.Request, res: express.Response): Promis
                 path: '/', 
                 httpOnly: true,
                 sameSite: 'lax',
-                maxAge: 60 * 60 * 1000
+                maxAge: rememberMe ? 14 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000
         });
-
         return res.status(200).json(user).end();
     }
     catch (error){

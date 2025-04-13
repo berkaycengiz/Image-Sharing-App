@@ -5,6 +5,7 @@ import SliderCheckbox from "../components/SliderCheckbox";
 import SubmitButton from "../components/SubmitButton";
 import { useLoginStore } from "../store/loginStore";
 import Navbar from "../layouts/Navbar";
+import { useRememberMe } from "../store/rememberMe";
 
 interface FormData {
     email: string;
@@ -12,8 +13,10 @@ interface FormData {
 }
 
 const Login: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
+  const [formData, setFormData] = useState<FormData>({ email: '', password: ''});
   const { email, password } = formData;
+
+  const {rememberMe} = useRememberMe();
 
   const { setEmail, setUsername } = useLoginStore();
 
@@ -40,7 +43,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await loginUser(email, password);
+      const response = await loginUser(email, password, rememberMe);
       setEmail(response.email);
       setUsername(response.username);
       navigate("/");
