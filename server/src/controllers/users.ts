@@ -48,7 +48,7 @@ export const updateUser = async (req: express.Request, res: express.Response): P
 
         const user = await getUserById(id);
 
-        user.profilepic = profilepic;
+        user.profilePic = profilepic;
         await user.save();
         
         return res.status(200).json(user).end();

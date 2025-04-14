@@ -1,6 +1,7 @@
 import express from "express";
 import { getUserByEmail, createUser, getUserBySessionToken, getUserByUsername } from "../db/users";
 import { authentication, random } from "../helpers";
+import { uploadFromBuffer } from "../helpers/cloudinaryHelper";
 
 export const authMe = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
@@ -68,19 +69,27 @@ export const register = async (req: express.Request, res: express.Response): Pro
     try{
         const {email, password, username, profilepic} = req.body;
 
+        let profilePicUrl = 'https://res.cloudinary.com/dhzzoyfgt/image/upload/v1739299446/no-pic.png';
+
+        if (req.file) {
+            const options = {folder: 'profile_pics'}
+            const result = await uploadFromBuffer(req.file.buffer, options);
+            profilePicUrl = result.secure_url;
+        }
+
         if (!email || !username || !password){
             return res.sendStatus(400);
         }
 
-        const existingUser = await getUserByEmail(email);
+        let existingUser = await getUserByEmail(email);
 
         if(existingUser){
             return res.status(400).json({ message: 'Email already in use' });
         }
 
-        const existingUser2 = await getUserByUsername(username);
+        existingUser = await getUserByUsername(username);
 
-        if(existingUser2){
+        if(existingUser){
             return res.status(400).json({ message: 'Username already in use' });
         }
 
@@ -95,7 +104,7 @@ export const register = async (req: express.Request, res: express.Response): Pro
             email,
             username,
             connected,
-            profilepic,
+            profilePic: profilePicUrl,
             authentication: {
                 salt,
                 password: authentication(salt, password)

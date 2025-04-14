@@ -7,7 +7,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import router from './router';
-import { v2 as cloudinary } from 'cloudinary';
+import multer from 'multer';
+import { cloudinary } from './config/cloudinaryConfig'; 
 
 dotenv.config();
 
@@ -35,11 +36,10 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
 mongoose.connection.on('error', (error: Error) => console.log(error));
 
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
-});
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+module.exports = cloudinary;
 
 
 
