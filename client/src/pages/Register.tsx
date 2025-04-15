@@ -12,6 +12,9 @@ const Register: React.FC = () => {
 
   const [error, setError] = useState("");
 
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
   const [activeCard, setActiveCard] = useState<1 | 2>(1);
   
   const navigate = useNavigate();
@@ -21,6 +24,14 @@ const Register: React.FC = () => {
   email: setEmail,
   password: setPassword,
   confirmPassword: setConfirmPassword,
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfilePic(file);
+      setPreview(URL.createObjectURL(file));
+    }
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,8 +67,8 @@ const Register: React.FC = () => {
   return (
     <div className="min-h-screen bg-background overflow-hidden">
       <Navbar></Navbar>
-      <div className="flex flex-col items-center justify-center mt-24">
-        <form className="flex flex-col gap-4 bg-white p-6 rounded-2xl shadow-secondary shadow-2xl w-97 transition-all duration-1000" style={{
+      <div className="flex flex-col relative items-center mt-24">
+        <form className="flex flex-col gap-4 bg-white p-6 rounded-2xl absolute shadow-secondary shadow-2xl w-97 transition-all duration-1000" style={{
             transform: `translateX(${activeCard === 1 ? '0%' : '-200%'})`,
             opacity: activeCard === 1 ? 1 : 0,
           }}>
@@ -100,12 +111,16 @@ const Register: React.FC = () => {
           <CircleButton onClick={() => setActiveCard(2)}><BsArrowRight className="text-2xl"></BsArrowRight></CircleButton>
         </form>
         
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-white p-6 rounded-2xl -translate-y-75 shadow-secondary shadow-2xl w-97 transition-all duration-1000" style={{
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-white p-6 rounded-2xl absolute -translate-y- shadow-secondary shadow-2xl w-97 transition-all duration-1000" style={{
             transform: `translateX(${activeCard === 2 ? '0%' : '200%'})`,
             opacity: activeCard === 2 ? 1 : 0,
           }}>
           <h2 className="text-xl self-center font-display font-bold text-primary mb-2">Profile Picture</h2>
           {error && <p className="text-error text-sm">{error}</p>}
+          <div>
+            <input type="file" accept=".png,.jpg,.jpeg" className="opacity-0" onChange={handleFileChange}/>
+            {preview && <img src={preview} alt="Preview" className="w-36 h-36 rounded-full self-center object-cover" />}
+          </div>
           <CircleButton onClick={() => setActiveCard(1)}><BsArrowLeft className="text-2xl"></BsArrowLeft></CircleButton>
           <SubmitButton>REGISTER</SubmitButton>
         </form>

@@ -36,9 +36,6 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
 mongoose.connection.on('error', (error: Error) => console.log(error));
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
 module.exports = cloudinary;
 
 

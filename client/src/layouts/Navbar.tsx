@@ -23,6 +23,7 @@ const Navbar: React.FC = () => {
       else {
         setLoggedIn(false);
       }
+      console.log(isLoggedIn);
     };
     handleLoginStatus();
   }, []);

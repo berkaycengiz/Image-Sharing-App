@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/loginService";
 import SliderCheckbox from "../components/SliderCheckbox";
@@ -6,6 +6,7 @@ import SubmitButton from "../components/SubmitButton";
 import { useLoginStore } from "../store/loginStore";
 import Navbar from "../layouts/Navbar";
 import { useRememberMe } from "../store/rememberMe";
+import { useAuthStore } from "../store/authStore";
 
 interface FormData {
     email: string;
@@ -16,12 +17,20 @@ const Login: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({ email: '', password: ''});
   const { email, password } = formData;
 
-  const {rememberMe} = useRememberMe();
+  const { isLoggedIn } = useAuthStore();
+
+  const { rememberMe } = useRememberMe();
 
   const { setEmail, setUsername } = useLoginStore();
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
