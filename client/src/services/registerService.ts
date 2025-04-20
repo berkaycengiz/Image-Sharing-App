@@ -7,7 +7,7 @@ export const registerUser = async (username: string, email: string, password: st
     const response = await axios.post(`${BASE_URL}/auth/register`, {
       username,
       email,
-      password
+      password,
     },
     {withCredentials: true}
   );

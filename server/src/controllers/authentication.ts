@@ -67,15 +67,9 @@ export const login = async (req: express.Request, res: express.Response): Promis
 
 export const register = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
-        const {email, password, username, profilepic} = req.body;
+        const {email, password, username} = req.body;
 
         let profilePicUrl = 'https://res.cloudinary.com/dhzzoyfgt/image/upload/v1739299446/no-pic.png';
-
-        if (req.file) {
-            const options = {folder: 'profile_pics'}
-            const result = await uploadFromBuffer(req.file.buffer, options);
-            profilePicUrl = result.secure_url;
-        }
 
         if (!email || !username || !password){
             return res.sendStatus(400);
@@ -98,12 +92,10 @@ export const register = async (req: express.Request, res: express.Response): Pro
         }
 
         const salt = random();
-        const connected = false;
         
         const user = await createUser({
             email,
             username,
-            connected,
             profilePic: profilePicUrl,
             authentication: {
                 salt,
@@ -119,7 +111,7 @@ export const register = async (req: express.Request, res: express.Response): Pro
     }
 };
 
-export const logout  = async (req: express.Request, res: express.Response): Promise<any> => {
+export const logout = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
         const sessionToken = req.cookies['COOKIE-AUTH'];
         
@@ -135,6 +127,36 @@ export const logout  = async (req: express.Request, res: express.Response): Prom
         return res.status(200).json({ message: 'Successfully logged out' });
     }
     catch(error){
+        console.log(error);
+        return res.sendStatus(400);
+    }
+};
+
+export const uploadPic = async (req: express.Request, res: express.Response): Promise<any> => {
+    try{
+        const {username} = req.params;
+
+        const user = await getUserByUsername(username);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        let profilePicUrl;
+
+        if (req.file) {
+            const options = {folder: 'profile_pics'}
+            const result = await uploadFromBuffer(req.file.buffer, options);
+            profilePicUrl = result.secure_url;
+        }
+        
+        user.profilePic = profilePicUrl;
+        
+        await user.save();
+
+        return res.status(200).json(user).end;
+    }
+    catch (error){
         console.log(error);
         return res.sendStatus(400);
     }

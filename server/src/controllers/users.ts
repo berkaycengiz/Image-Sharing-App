@@ -1,5 +1,6 @@
 import express from 'express';
-import { deleteUserById, getUserById, getUsers } from '../db/users';
+import { deleteUserById, getUserById, getUserByUsername, getUsers } from '../db/users';
+import { authentication } from '../helpers/index';
 
 export const getUser = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
@@ -44,11 +45,24 @@ export const deleteUser = async (req: express.Request, res: express.Response): P
 export const updateUser = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
         const {id} = req.params;
-        const {profilepic} = req.body;
+        const {username, password} = req.body;
 
         const user = await getUserById(id);
 
-        user.profilePic = profilepic;
+        if (username && username !== user.username) {
+            const existingUser = getUserByUsername(username);
+            if (!existingUser) {
+                user.username = username;
+            } 
+            else {
+                return res.status(400).json({ message: 'Username already taken' });
+            }
+        }
+
+        if (password) {
+            user.authentication.password = authentication(user.authentication.salt, password);
+        }
+
         await user.save();
         
         return res.status(200).json(user).end();

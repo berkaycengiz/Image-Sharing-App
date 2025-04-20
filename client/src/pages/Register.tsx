@@ -6,6 +6,7 @@ import SubmitButton from "../components/SubmitButton";
 import Navbar from "../layouts/Navbar";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import CircleButton from "../components/CircleButton";
+import { uploadProfilePic } from "../services/uploadService";
 
 const Register: React.FC = () => {
   const { username, email, password, confirmPassword, setUsername, setEmail, setPassword, setConfirmPassword } = useRegisterStore();
@@ -58,6 +59,7 @@ const Register: React.FC = () => {
     }
     try {
       await registerUser(username, email, password);
+      await uploadProfilePic(profilePic, username);
       navigate("/login");
     } catch (err: any) {
       setError(err);
@@ -117,10 +119,27 @@ const Register: React.FC = () => {
           }}>
           <h2 className="text-xl self-center font-display font-bold text-primary mb-2">Profile Picture</h2>
           {error && <p className="text-error text-sm">{error}</p>}
-          <div>
-            <input type="file" accept=".png,.jpg,.jpeg" className="opacity-0" onChange={handleFileChange}/>
-            {preview && <img src={preview} alt="Preview" className="w-36 h-36 rounded-full self-center object-cover" />}
-          </div>
+          <label htmlFor="profilePicInput" className="cursor-pointer block w-36 h-36 mx-auto">
+            <div className="w-full h-full border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-gray-400 hover:border-primary hover:text-primary transition duration-300 ease-in-out">
+              {preview ? (
+                <img src={preview} alt="Profile Preview" className="w-34 h-34 rounded-full self-center object-cover" />
+              ) : (
+                <div className="text-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-xs">Upload Photo</span>
+                </div>
+              )}
+            </div>
+          </label>
+          <input
+            id="profilePicInput"
+            type="file"
+            accept=".png,.jpg,.jpeg"
+            className="hidden"
+            onChange={handleFileChange}
+          />
           <CircleButton onClick={() => setActiveCard(1)}><BsArrowLeft className="text-2xl"></BsArrowLeft></CircleButton>
           <SubmitButton>REGISTER</SubmitButton>
         </form>
