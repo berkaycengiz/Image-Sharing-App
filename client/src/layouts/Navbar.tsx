@@ -10,7 +10,7 @@ import { useAuthStore } from "../store/authStore"
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
-  const { username, setUsername, setEmail, clearUsername, clearEmail } = useLoginStore();
+  const { nickname, setNickname, setEmail, clearNickname, clearEmail } = useLoginStore();
 
   const { isLoggedIn, setLoggedIn } = useAuthStore(); 
 
@@ -25,10 +25,10 @@ const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('username');
+    const storedUsername = localStorage.getItem('nickname');
     const storedEmail = localStorage.getItem('email');
     if (storedUsername && storedEmail) {
-      setUsername(storedUsername);
+      setNickname(storedUsername);
       setEmail(storedEmail);
     }
   }, []);
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
       await logoutUser();
       setLoggedIn(false);
       clearEmail();
-      clearUsername();
+      clearNickname();
       navigate("/");
     } catch (err: any) {
       console.error(err.response?.data || err.message);
@@ -47,8 +47,8 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-background shadow-2xl uppercase shadow-secondary">
-      <div className="max-w-7xl mx-auto h-13 px-8 py-3 flex justify-between items-center">
+    <nav className="bg-background shadow-2xl h-13 uppercase shadow-secondary">
+      <div className="max-w-7xl mx-auto h-full px-8 py-3 flex justify-between items-center">
         <Link to="/" className="relative group flex h-full transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">
           Home
           <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
@@ -58,8 +58,8 @@ const Navbar: React.FC = () => {
           <div className="flex h-full gap-8">
             { isLoggedIn ? (
               <>
-                <Link to={`/profile/${username}`} className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display  hover:text-primary">
-                  {username} 
+                <Link to={`/profile/${nickname}`} className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display  hover:text-primary">
+                  {nickname} 
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
                 </Link>
                 <Link to="/login" onClick={handleLogout} className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display hover:text-primary">

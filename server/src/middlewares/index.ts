@@ -1,17 +1,22 @@
 import express from 'express';
 import { get, merge } from 'lodash';
-import { getUserBySessionToken } from '../db/users';
+import { getUserBySessionToken, getUserByUsername, getUserById } from '../db/users';
 
 export const isOwner = async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<any> =>{
     try{
-        const {id} = req.params;
+        const {id, username} = req.params;
         const currentUserId = get(req, 'identity._id') as string;
+        const currentUserUsername = get(req, 'identity.username') as string;
 
-        if(!currentUserId){ 
+        if(!currentUserId || !currentUserUsername){ 
             return res.sendStatus(403);
         }
 
-        if(currentUserId.toString() !== id){
+        if (id && currentUserId.toString() !== id) {
+            return res.sendStatus(403);
+        }
+  
+        if (username && currentUserUsername !== username) {
             return res.sendStatus(403);
         }
 

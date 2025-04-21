@@ -134,6 +134,7 @@ const Register: React.FC = () => {
             </div>
           </label>
           <input
+            id="profilePicInput"
             type="file"
             accept=".png,.jpg,.jpeg"
             className="hidden"

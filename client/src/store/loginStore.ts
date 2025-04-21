@@ -1,28 +1,28 @@
 import { create } from "zustand";
 
 interface LoginState {
-  username: string | null;
+  nickname: string | null;
   email: string | null;
-  setUsername: (username: string) => void;
+  setNickname: (nickname: string) => void;
   setEmail: (email: string) => void;
-  clearUsername: () => void;
+  clearNickname: () => void;
   clearEmail: () => void;
 }
 
 export const useLoginStore = create<LoginState>((set) => ({
-  username: "",
+  nickname: "",
   email: "",
-  setUsername: (username) => {
-    localStorage.setItem('username', username);
-    set({ username });
+  setNickname: (nickname) => {
+    localStorage.setItem('nickname', nickname);
+    set({ nickname });
   },
   setEmail: (email) => {
     localStorage.setItem('email', email);
-    set({email});
+    set({ email });
   },
-  clearUsername: () => {
-    localStorage.removeItem('username');
-    set({ username: null });
+  clearNickname: () => {
+    localStorage.removeItem('nickname');
+    set({ nickname: null });
   },
   clearEmail: () => {
     localStorage.removeItem('email');

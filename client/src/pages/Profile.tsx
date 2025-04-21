@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../layouts/Navbar';
 import { getUser } from '../services/userService';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useLoginStore } from '../store/loginStore';
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -9,7 +10,31 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { nickname } = useLoginStore();
+
   const { username } = useParams();
+
+  console.log(username, nickname)
+
+  const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(3);
+
+  useEffect(() => {
+    if (!user && !loading) {
+      const timer = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+
+      const redirect = setTimeout(() => {
+        navigate("/");
+      }, 3000);
+
+      return () => {
+        clearInterval(timer);
+        clearTimeout(redirect);
+      };
+    }
+  }, [user]);
   
   useEffect(() => {
     const loadProfileData = async () => {
@@ -32,6 +57,15 @@ const Profile: React.FC = () => {
     loadProfileData();
   }, []);
 
+  if(!user && !loading) {
+    return(
+      <>
+        <Navbar />
+        <div className="text-center p-10">User not found. Redirecting to Home Page in {countdown}.</div>
+      </>
+    )
+  }
+
   if (loading) {
     <Navbar></Navbar>
     return <div className="text-center p-20 text-primary text-2xl font-bold">Loading profile...</div>;
@@ -39,33 +73,48 @@ const Profile: React.FC = () => {
 
   if (error) {
     <Navbar></Navbar>
-    return <div className="text-center p-10 text-red-600">{error}</div>;
-  }
-
-  if (!user) {
-    <Navbar></Navbar>
-    return <div className="text-center p-10">User not found.</div>;
+    return <div className="text-center p-10 text-error">{error}</div>;
   }
 
   return (
     <div className="min-h-screen overflow-hidden bg-background">
       <Navbar></Navbar>
         <div className="max-w-4xl mx-auto p-5 font-display">
-          <div className="flex items-center mb-5">
-            <img
-              src={user.profilePic}
-              alt={`${user.username}'s profile`}
-              className="w-36 h-36 rounded-full object-cover mr-8 border-2 border-gray-300"
-            />
+          <div className="flex items-center my-10">
+            <div className="">
+              <img
+                src={user.profilePic}
+                alt={`${user.username}'s profile`}
+                className="w-36 h-36 rounded-full object-cover mr-8 border-2 border-hover"
+              />
+              
+              {/* {nickname === user.username && (
+                <>
+                  <label
+                    htmlFor="profilePicUpload"
+                    className="bg-primary text-white text-xs px-2 py-1 rounded-full cursor-pointer hover:bg-hover transition"
+                  >
+                    Change
+                  </label>
+                  <input
+                    id="profilePicUpload"
+                    type="file"
+                    accept=".png,.jpg,.jpeg"
+                    className="hidden"
+                  />
+                </>
+              )} */}
+            </div>
+
             <div className="flex-grow">
-              <h2 className="text-2xl font-semibold mb-2">{user.username}</h2>
-              <p className="text-gray-700">{user.connected || 'No bio available.'}</p>
+              <h2 className="text-2xl font-normal text-primary mb-2">{user.username}</h2>
+                {/* <p className="text-secondary-700">{user.connected ? "Connected" : "Not Connected"}</p> */}
             </div>
           </div>
 
-        <hr className="my-5 border-gray-300" />
+        <hr className="my-5 border-secondary" />
 
-        <h3 className="text-xl font-semibold mb-4">Posts</h3>
+        <h3 className="text-xl font-semibold text-primary mb-4">Posts</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.length > 0 ? (
             images.map((image) => (
@@ -74,7 +123,7 @@ const Profile: React.FC = () => {
               </div>
             ))
           ) : (
-            <p className="text-gray-500 col-span-full text-center">No images shared yet.</p>
+            <p className="text-hover col-span-full text-center">No images shared yet.</p>
           )}
         </div>
       </div>

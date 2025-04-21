@@ -21,7 +21,7 @@ const Login: React.FC = () => {
 
   const { rememberMe } = useRememberMe();
 
-  const { setEmail, setUsername } = useLoginStore();
+  const { setEmail, setNickname } = useLoginStore();
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
     try {
       const response = await loginUser(email, password, rememberMe);
       setEmail(response.email);
-      setUsername(response.username);
+      setNickname(response.username);
       navigate("/");
     } catch (err: any) {
       setError(err);
