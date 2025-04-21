@@ -3,24 +3,47 @@ import Navbar from '../layouts/Navbar';
 import { getUser } from '../services/userService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLoginStore } from '../store/loginStore';
+import { IoCameraOutline } from "react-icons/io5";
+import { updateProfilePic } from '../services/profilePictureService';
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [images, setImages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const { nickname } = useLoginStore();
 
   const { username } = useParams();
-
-  console.log(username, nickname)
-
+  
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(3);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfilePic(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleConfirm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if(username!){
+        await updateProfilePic(profilePic, username);          
+      }
+    } 
+    catch (err: any) {
+      setError(err);
+    }
+  };
+    
+
   useEffect(() => {
-    if (!user && !loading) {
+    if (!user) {
       const timer = setInterval(() => {
         setCountdown(prev => prev - 1);
       }, 1000);
@@ -81,29 +104,34 @@ const Profile: React.FC = () => {
       <Navbar></Navbar>
         <div className="max-w-4xl mx-auto p-5 font-display">
           <div className="flex items-center my-10">
-            <div className="">
-              <img
+            <div className="relative">
+              {preview ? (
+              <img src={preview} alt="Profile Preview" className="w-36 h-36 rounded-full object-cover mr-8 border-2 border-hover" />
+              ) : (
+                <img
                 src={user.profilePic}
-                alt={`${user.username}'s profile`}
                 className="w-36 h-36 rounded-full object-cover mr-8 border-2 border-hover"
               />
-              
-              {/* {nickname === user.username && (
+              )}
+              {nickname === user.username && (
                 <>
                   <label
                     htmlFor="profilePicUpload"
-                    className="bg-primary text-white text-xs px-2 py-1 rounded-full cursor-pointer hover:bg-hover transition"
+                    className="bg-primary/0 absolute w-36 h-36 mx-auto rounded-full cursor-pointer top-0 hover:bg-hover/50 transition duration-300"
                   >
-                    Change
+                    <div className="w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300">
+                      <IoCameraOutline className='text-4xl text-primary'></IoCameraOutline>
+                    </div>
                   </label>
                   <input
                     id="profilePicUpload"
                     type="file"
                     accept=".png,.jpg,.jpeg"
                     className="hidden"
+                    onChange={handleFileChange}
                   />
                 </>
-              )} */}
+              )}
             </div>
 
             <div className="flex-grow">
