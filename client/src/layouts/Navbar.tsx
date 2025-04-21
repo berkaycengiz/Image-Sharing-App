@@ -19,11 +19,7 @@ const Navbar: React.FC = () => {
       const status = await checkLoginStatus();
       if (status === 200) {
         setLoggedIn(true);
-      } 
-      else {
-        setLoggedIn(false);
       }
-      console.log(isLoggedIn);
     };
     handleLoginStatus();
   }, []);
@@ -62,7 +58,7 @@ const Navbar: React.FC = () => {
           <div className="flex h-full gap-8">
             { isLoggedIn ? (
               <>
-                <Link to="/" className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display  hover:text-primary">
+                <Link to={`/profile/${username}`} className="relative group transition-transform duration-150 hover:scale-105 text-secondary font-bold font-display  hover:text-primary">
                   {username} 
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 origin-bottom-right transition-transform duration-300 ease-out group-hover:scale-x-100 group-hover:origin-bottom-left"></span>
                 </Link>

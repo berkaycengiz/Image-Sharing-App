@@ -4,9 +4,9 @@ import { authentication } from '../helpers/index';
 
 export const getUser = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
-        const {id} = req.params;
+        const {username} = req.params;
 
-        const user = await getUserById(id);
+        const user = await getUserByUsername(username);
 
         return res.json(user);
     }
@@ -30,9 +30,9 @@ export const getAllUsers = async (req: express.Request, res: express.Response): 
 
 export const deleteUser = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
-        const {id} = req.params;
+        const {username} = req.params;
 
-        const deletedUser = await deleteUserById(id);
+        const deletedUser = await deleteUserById(username);
 
         return res.json(deletedUser);
     }

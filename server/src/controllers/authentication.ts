@@ -28,7 +28,6 @@ export const authMe = async (req: express.Request, res: express.Response): Promi
 export const login = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
         const {email, password, rememberMe} = req.body;
-        console.log(rememberMe)
 
         if(!email || !password){
             return res.sendStatus(400);
@@ -69,7 +68,11 @@ export const register = async (req: express.Request, res: express.Response): Pro
     try{
         const {email, password, username} = req.body;
 
-        let profilePicUrl = 'https://res.cloudinary.com/dhzzoyfgt/image/upload/v1739299446/no-pic.png';
+        let profilePicUrl
+
+        if(!req.file){
+            profilePicUrl = 'https://res.cloudinary.com/dhzzoyfgt/image/upload/v1739299446/no-pic.png';
+        }
 
         if (!email || !username || !password){
             return res.sendStatus(400);
@@ -141,16 +144,12 @@ export const uploadPic = async (req: express.Request, res: express.Response): Pr
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        
-        let profilePicUrl;
 
         if (req.file) {
             const options = {folder: 'profile_pics'}
             const result = await uploadFromBuffer(req.file.buffer, options);
-            profilePicUrl = result.secure_url;
+            user.profilePic = result.secure_url;
         }
-        
-        user.profilePic = profilePicUrl;
         
         await user.save();
 

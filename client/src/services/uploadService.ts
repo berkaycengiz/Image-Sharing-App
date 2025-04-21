@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_API_URL;
 
-export const uploadProfilePic = async (file: File | null, username: string ) => {
+export const uploadProfilePic = async (file: File | null, username: string) => {
   const formData = new FormData();
   if(file){
     formData.append('profilePic', file);
