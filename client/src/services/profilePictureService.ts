@@ -12,6 +12,7 @@ export const updateProfilePic = async (file: File | null, username: string) => {
     headers: {
         'Content-Type': 'multipart/form-data',
     },
+    withCredentials: true,
   });
     console.log('Profile picture uploaded:', response.data);
     return response.data;

@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useLoginStore } from '../store/loginStore';
 import { IoCameraOutline } from "react-icons/io5";
 import { updateProfilePic } from '../services/profilePictureService';
+import CircleButton from '../components/CircleButton';
+import { FaCheck } from 'react-icons/fa';
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -29,11 +31,11 @@ const Profile: React.FC = () => {
     }
   };
 
-  const handleConfirm = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleConfirm = async () => {
     try {
       if(username!){
-        await updateProfilePic(profilePic, username);          
+        await updateProfilePic(profilePic, username);      
+        navigate(0);    
       }
     } 
     catch (err: any) {
@@ -63,7 +65,6 @@ const Profile: React.FC = () => {
     const loadProfileData = async () => {
       try {
         const userData = await getUser(username!);
-        console.log(userData);
         setUser(userData);
         setLoading(true);
         setError(null);
@@ -103,15 +104,20 @@ const Profile: React.FC = () => {
     <div className="min-h-screen overflow-hidden bg-background">
       <Navbar></Navbar>
         <div className="max-w-4xl mx-auto p-5 font-display">
-          <div className="flex items-center my-10">
+          <div className="flex items-center my-10 gap-8">
             <div className="relative">
               {preview ? (
-              <img src={preview} alt="Profile Preview" className="w-36 h-36 rounded-full object-cover mr-8 border-2 border-hover" />
+                <div className="relative flex flex-col">
+                  <img src={preview} alt="Profile Preview" className="w-36 h-36 rounded-full object-cover border-4 border-hover" />
+                  <CircleButton onClick={handleConfirm} style={{position: "absolute", zIndex: "5", top: "10px", backgroundColor: "", scale: "0.8", fontSize: "20px"}}>
+                    <FaCheck></FaCheck>
+                  </CircleButton>
+                </div>
               ) : (
-                <img
-                src={user.profilePic}
-                className="w-36 h-36 rounded-full object-cover mr-8 border-2 border-hover"
-              />
+                  <img
+                  src={user.profilePic}
+                  className="w-36 h-36 rounded-full object-cover border-4 border-hover"
+                  />
               )}
               {nickname === user.username && (
                 <>
