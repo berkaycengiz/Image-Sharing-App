@@ -103,13 +103,13 @@ const Profile: React.FC = () => {
   return (
     <div className="min-h-screen overflow-hidden bg-background">
       <Navbar></Navbar>
-        <div className="max-w-4xl mx-auto p-5 font-display">
+        <div className="max-w-6xl mx-auto py-5 px-8 font-display">
           <div className="flex items-center my-10 gap-8">
             <div className="relative">
               {preview ? (
                 <div className="relative flex flex-col">
-                  <img src={preview} alt="Profile Preview" className="w-36 h-36 rounded-full object-cover border-4 border-hover" />
-                  <CircleButton onClick={handleConfirm} style={{position: "absolute", zIndex: "5", top: "10px", backgroundColor: "", scale: "0.8", fontSize: "20px"}}>
+                  <img src={preview} className="w-36 h-36 rounded-full object-cover border-4 border-hover" />
+                  <CircleButton onClick={handleConfirm} style={{position: "absolute", zIndex: "5", top: "10px", scale: "0.8", fontSize: "20px"}}>
                     <FaCheck></FaCheck>
                   </CircleButton>
                 </div>
@@ -122,15 +122,15 @@ const Profile: React.FC = () => {
               {nickname === user.username && (
                 <>
                   <label
-                    htmlFor="profilePicUpload"
+                    htmlFor="profilePicInput"
                     className="bg-primary/0 absolute w-36 h-36 mx-auto rounded-full cursor-pointer top-0 hover:bg-hover/50 transition duration-300"
                   >
                     <div className="w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300">
-                      <IoCameraOutline className='text-4xl text-primary'></IoCameraOutline>
+                      <IoCameraOutline className='text-4xl text-highlight'></IoCameraOutline>
                     </div>
                   </label>
                   <input
-                    id="profilePicUpload"
+                    id="profilePicInput"
                     type="file"
                     accept=".png,.jpg,.jpeg"
                     className="hidden"

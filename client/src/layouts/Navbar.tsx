@@ -53,19 +53,19 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-background  h-13 uppercase">
-      <div className="max-w-7xl mx-auto h-full px-8 py-2 flex justify-between items-center">
+    <nav className="bg-background h-13 uppercase">
+      <div className="max-w-6xl mx-auto h-full px-8 py-2 flex justify-between items-center">
         <Link to="/" className={`relative group transform duration-500 hover:scale-105 p-2 font-bold font-display self-center ${
-        currentPath === "/" ? "text-primary" : "text-hover hover:text-primary"
+        currentPath === "/" ? "text-highlight" : "text-secondary hover:text-highlight"
         }`}>
           Home
-          <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+          <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
           </span>
-          <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+          <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
           </span>
-          <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+          <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
           </span>
-          <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+          <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
           </span>
         </Link>
 
@@ -74,69 +74,69 @@ const Navbar: React.FC = () => {
             { isLoggedIn ? (
               <>
                 <Link to={`/profile/${nickname}`} className={`relative group transform duration-500 hover:scale-105 p-2 font-bold font-display self-center ${
-                currentPath === `/profile/${nickname}` ? "text-primary" : "text-hover hover:text-primary"
+                currentPath === `/profile/${nickname}` ? "text-highlight" : "text-secondary hover:text-highlight"
                 }`}>
                   {nickname} 
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
-                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
                 </Link>
                 <Link to="/settings" className={`relative group transform duration-500 hover:scale-105 p-2 font-bold font-display self-center ${
-                currentPath === `/settings` ? "text-primary" : "text-hover hover:text-primary"
+                currentPath === `/settings` ? "text-highlight" : "text-secondary hover:text-highlight"
                 }`}>
                   Settings
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
-                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
                 </Link>
-                <Link to="/login" onClick={handleLogout} className="relative group transform duration-500 p-2 hover:scale-105 text-hover font-bold font-display hover:text-primary self-center">
+                <Link to="/login" onClick={handleLogout} className="relative group transform duration-500 p-2 hover:scale-105 text-secondary font-bold font-display hover:text-highlight self-center">
                   Logout
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
-                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
                 </Link>
               </>
               ) : (
               <>
                 <Link to="/register" className={`relative group transform duration-500 hover:scale-105 p-2 font-bold font-display self-center ${
-                currentPath === `/register` ? "text-primary" : "text-hover hover:text-primary"
+                currentPath === `/register` ? "text-highlight" : "text-secondary hover:text-highlight"
                 }`}>
                   Register
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
-                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
                 </Link>
                 <Link to="/login" className={`relative group transform duration-500 hover:scale-105 p-2 font-bold font-display self-center ${
-                currentPath === `/login` ? "text-primary" : "text-hover hover:text-primary"
+                currentPath === `/login` ? "text-highlight" : "text-secondary hover:text-highlight"
                 }`}>
                   Login
-                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 left-0 h-full w-0.5 origin-bottom scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
-                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-secondary duration-300 group-hover:scale-x-100">
+                  <span className="absolute top-0 left-0 h-0.5 w-full origin-right scale-x-0 transform bg-highlight duration-300 group-hover:scale-x-100">
                   </span>
-                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-secondary duration-300 group-hover:scale-y-100">
+                  <span className="absolute bottom-0 right-0 h-full w-0.5 origin-top scale-y-0 transform bg-highlight duration-300 group-hover:scale-y-100">
                   </span>
                 </Link>
               </>

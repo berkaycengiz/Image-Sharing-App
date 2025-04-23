@@ -2,6 +2,7 @@
 
 @theme{
     --font-display: "Roboto", "serif";
+    --color-highlight: #8B69F1;
     --color-primary: #A294F9;
     --color-secondary: #B4A8FA;
     --color-hover: #CDC1FF;
