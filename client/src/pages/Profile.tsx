@@ -69,10 +69,12 @@ const Profile: React.FC = () => {
         setError(null);
         setPosts([
         ]);
-      } catch (err) {
+      } 
+      catch (err) {
         console.error("Error loading profile:", err);
         setError('Failed to load profile data.');
-      } finally {
+      } 
+      finally {
         setLoading(false);
       }
     };
@@ -90,12 +92,10 @@ const Profile: React.FC = () => {
   }
 
   if (loading) {
-    <Navbar></Navbar>
     return <div className="text-center p-20 text-primary text-2xl font-bold">Loading profile...</div>;
   }
 
   if (error) {
-    <Navbar></Navbar>
     return <div className="text-center p-10 text-error">{error}</div>;
   }
 

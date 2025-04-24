@@ -18,6 +18,20 @@ export const getPost = async (req: express.Request, res: express.Response): Prom
     }
 }
 
+export const getPostsByUsername = async (req: express.Request, res: express.Response): Promise<any> => {
+    try{
+        const {id} = req.params;
+
+        const post = await getPostById(id);
+
+        return res.json(post);
+    }
+    catch(error){
+        console.log(error);
+        return res.sendStatus(400);
+    }
+}
+
 export const newPost = async (req: RequestWithIdentity, res: express.Response): Promise<any> => {
     try{
         const {description} = req.body;
