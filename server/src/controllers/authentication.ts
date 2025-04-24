@@ -8,7 +8,7 @@ export const authMe = async (req: express.Request, res: express.Response): Promi
         const sessionToken = req.cookies['COOKIE-AUTH'];
 
         if (!sessionToken) {
-          return res.status(401).json({ message: 'Not authenticated' });
+          return res.status(401).json({ message: 'Please login.' });
         }
     
         const user = await getUserBySessionToken(sessionToken);
@@ -30,7 +30,7 @@ export const login = async (req: express.Request, res: express.Response): Promis
         const {email, password, rememberMe} = req.body;
 
         if(!email || !password){
-            return res.sendStatus(400);
+            return res.status(400).json({ message: 'Please make sure all fields are filled in correctly.' });
         }
 
         const user = await getUserByEmail(email).select('+authentication.salt +authentication.password');
@@ -75,7 +75,7 @@ export const register = async (req: express.Request, res: express.Response): Pro
         }
 
         if (!email || !username || !password){
-            return res.sendStatus(400);
+            return res.status(400).json({ message: 'Please make sure all fields are filled in correctly.' });
         }
 
         let existingUser = await getUserByEmail(email);
@@ -119,7 +119,7 @@ export const logout = async (req: express.Request, res: express.Response): Promi
         const sessionToken = req.cookies['COOKIE-AUTH'];
         
         if (!sessionToken) {
-            return res.status(401).json({ message: 'Unauthorized: No session token provided' });
+            return res.status(401).json({ message: 'Please login.' });
         }
         
         const user = await getUserBySessionToken(sessionToken);

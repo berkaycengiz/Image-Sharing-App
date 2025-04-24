@@ -11,7 +11,7 @@ const PostSchema = new mongoose.Schema({
 
 export const PostModel = mongoose.model('Post', PostSchema);
 
-export const getPosts = () => PostModel.find().populate("postedBy", "username profilePic");
+export const getPosts = () => PostModel.find().populate("postedBy", "username profilePic").sort({createdAt: -1});;
 export const getPostById = (id: string) => PostModel.findById(id).populate("postedBy", "username profilePic");
 export const createPost = (values: Record<string, any>) => new PostModel(values).save().then((post) => post.toObject());
 export const updatePostById = (id: string, values: Record<string, any>) => PostModel.findByIdAndUpdate(id, values);

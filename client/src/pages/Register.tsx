@@ -12,7 +12,6 @@ const Register: React.FC = () => {
   const { username, email, password, confirmPassword, setUsername, setEmail, setPassword, setConfirmPassword } = useRegisterStore();
 
   const [error, setError] = useState("");
-
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -61,7 +60,8 @@ const Register: React.FC = () => {
       await registerUser(username, email, password);
       await uploadProfilePic(profilePic, username);
       navigate("/login");
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       setError(err);
     }
   };
@@ -118,7 +118,7 @@ const Register: React.FC = () => {
             opacity: activeCard === 2 ? 1 : 0,
           }}>
           <h2 className="text-xl self-center font-display font-bold text-primary mb-2">Profile Picture</h2>
-          {error && <p className="text-error text-sm">{error}</p>}
+          {error && <p className="text-error text-sm mb-4">{error}</p>}
           <label htmlFor="profilePicInput" className="cursor-pointer block w-36 h-36 mx-auto">
             <div className="w-full h-full border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-gray-400 hover:border-primary hover:text-primary transition duration-300 ease-in-out">
               {preview ? (

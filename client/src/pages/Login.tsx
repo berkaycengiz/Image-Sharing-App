@@ -9,8 +9,8 @@ import { useRememberMe } from "../store/rememberMe";
 import { useAuthStore } from "../store/authStore";
 
 interface FormData {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 const Login: React.FC = () => {
@@ -36,16 +36,16 @@ const Login: React.FC = () => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
     if ((name === 'email' && value.length > 0)){
-        setError('');
+      setError('');
     }
     else {
-        setError('Please make sure all fields are filled in correctly.');
+      setError('Please make sure all fields are filled in correctly.');
     }
     if((name === 'password' && value.length > 0)){
-        setError('');
+      setError('');
     }
     else{
-        setError('Please make sure all fields are filled in correctly.');
+      setError('Please make sure all fields are filled in correctly.');
     }
   };
 
@@ -56,7 +56,8 @@ const Login: React.FC = () => {
       setEmail(response.email);
       setNickname(response.username);
       navigate("/");
-    } catch (err: any) {
+    } 
+    catch (err: any) {
       setError(err);
     }
   };

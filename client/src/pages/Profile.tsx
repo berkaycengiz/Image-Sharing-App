@@ -10,7 +10,7 @@ import { FaCheck } from 'react-icons/fa';
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
-  const [images, setImages] = useState<any[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [profilePic, setProfilePic] = useState<File | null>(null);
@@ -43,7 +43,6 @@ const Profile: React.FC = () => {
     }
   };
     
-
   useEffect(() => {
     if (!user) {
       const timer = setInterval(() => {
@@ -68,7 +67,7 @@ const Profile: React.FC = () => {
         setUser(userData);
         setLoading(true);
         setError(null);
-        setImages([
+        setPosts([
         ]);
       } catch (err) {
         console.error("Error loading profile:", err);
@@ -150,10 +149,10 @@ const Profile: React.FC = () => {
 
         <h3 className="text-xl font-semibold text-primary mb-4">Posts</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {images.length > 0 ? (
-            images.map((image) => (
-              <div key={image.id} className="border border-gray-200 rounded overflow-hidden shadow-sm">
-                <img src={image.url} alt={image.caption || 'User image'} className="w-full h-auto block object-cover aspect-square" />
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post.id} className="border border-gray-200 rounded overflow-hidden shadow-sm">
+                <img src={post.url} className="w-full h-auto block object-cover aspect-square" />
               </div>
             ))
           ) : (
