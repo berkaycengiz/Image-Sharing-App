@@ -33,7 +33,7 @@ export const isAuthenticated = async (req: express.Request, res: express.Respons
         const sessionToken = req.cookies['COOKIE-AUTH'];
 
         if(!sessionToken){
-            return res.sendStatus(403);
+            return res.status(401).json({ message: 'Access denied. Please log in first.' });
         }
 
         const existingUser = await getUserBySessionToken(sessionToken);

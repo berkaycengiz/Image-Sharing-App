@@ -46,7 +46,7 @@ const Home: React.FC = () => {
       <Navbar></Navbar>
       <div className="max-w-6xl mx-auto py-5 px-8 font-display">
         <PostModal></PostModal>
-        <SubmitButton onClick={open}>Share Post</SubmitButton>
+        <SubmitButton onClick={open}>Create Post</SubmitButton>
         <hr className="my-5 border-secondary"/>
         
         <h3 className="text-2xl font-extrabold text-primary mb-4">Posts</h3>

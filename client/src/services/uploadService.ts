@@ -16,7 +16,7 @@ export const uploadProfilePic = async (file: File | null, username: string) => {
     console.log('Profile picture uploaded:', response.data);
     return response.data;
   } 
-  catch (error) {
+  catch (error: any) {
     console.error('Upload failed:', error);
     throw error;
   }

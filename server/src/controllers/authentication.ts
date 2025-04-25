@@ -8,7 +8,7 @@ export const authMe = async (req: express.Request, res: express.Response): Promi
         const sessionToken = req.cookies['COOKIE-AUTH'];
 
         if (!sessionToken) {
-          return res.status(401).json({ message: 'Please login.' });
+          return res.status(401).json({ message: 'Access denied. Please log in first.' });
         }
     
         const user = await getUserBySessionToken(sessionToken);
@@ -119,7 +119,7 @@ export const logout = async (req: express.Request, res: express.Response): Promi
         const sessionToken = req.cookies['COOKIE-AUTH'];
         
         if (!sessionToken) {
-            return res.status(401).json({ message: 'Please login.' });
+            return res.status(401).json({ message: 'Access denied. Please log in first.' });
         }
         
         const user = await getUserBySessionToken(sessionToken);

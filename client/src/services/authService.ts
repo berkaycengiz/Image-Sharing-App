@@ -6,7 +6,8 @@ export const checkLoginStatus = async () => {
       withCredentials: true
     });
     return response.status;
-  } catch (error: any) {
+  } 
+  catch (error: any) {
     throw error.response?.data?.message;
   }
 };

@@ -1,7 +1,8 @@
 import express from 'express';
-import { deletePostById, getPostById, getPosts, createPost } from '../db/posts';
+import { deletePostById, getPostById, getPosts, createPost, getPostsByUserId } from '../db/posts';
 import { RequestWithIdentity } from '../index.d';
 import { uploadFromBuffer } from '../helpers/cloudinaryHelper';
+import { getUserByUsername } from '../db/users';
 
 
 export const getPost = async (req: express.Request, res: express.Response): Promise<any> => {
@@ -20,11 +21,13 @@ export const getPost = async (req: express.Request, res: express.Response): Prom
 
 export const getPostsByUsername = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
-        const {id} = req.params;
+        const {username} = req.params;
 
-        const post = await getPostById(id);
+        const user = await getUserByUsername(username);
 
-        return res.json(post);
+        const posts = await getPostsByUserId(user.id);
+
+        return res.json(posts);
     }
     catch(error){
         console.log(error);

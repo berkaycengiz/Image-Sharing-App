@@ -10,6 +10,6 @@ export const getUser = async (username: string) => {
     return response.data;
   } 
   catch (error: any) {
-    throw error.response?.data?.message || "An unknown error occured!";
+    throw error.response?.data?.message;
   }
 };

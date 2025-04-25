@@ -7,6 +7,7 @@ import { IoCameraOutline } from "react-icons/io5";
 import { updateProfilePic } from '../services/profilePictureService';
 import CircleButton from '../components/CircleButton';
 import { FaCheck } from 'react-icons/fa';
+import { getUserPosts } from '../services/getUserPostsService';
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -64,15 +65,14 @@ const Profile: React.FC = () => {
     const loadProfileData = async () => {
       try {
         const userData = await getUser(username!);
+        const postData = await getUserPosts(username!);
         setUser(userData);
+        setPosts(postData);
         setLoading(true);
         setError(null);
-        setPosts([
-        ]);
       } 
-      catch (err) {
-        console.error("Error loading profile:", err);
-        setError('Failed to load profile data.');
+      catch (err: any) {
+        setError(err);
       } 
       finally {
         setLoading(false);
@@ -82,22 +82,31 @@ const Profile: React.FC = () => {
     loadProfileData();
   }, []);
 
-  if(!user && !loading) {
+  if (loading) {
     return(
       <>
-        <Navbar />
-        <div className="text-center p-10">User not found. Redirecting to Home Page in {countdown}.</div>
+        <div className="min-h-screen overflow-hidden bg-background">
+          <Navbar />
+          <div className="text-center p-20 text-primary text-2xl font-bold">Loading profile...</div>;
+        </div>
       </>
     )
   }
 
-  if (loading) {
-    return <div className="text-center p-20 text-primary text-2xl font-bold">Loading profile...</div>;
+  else if (error) {
+    return <div className="text-center p-10 text-error">{error} {countdown}</div>;
   }
 
-  if (error) {
-    return <div className="text-center p-10 text-error">{error}</div>;
+  else if(!user && !loading) {
+    return(
+      <>
+        <div className="min-h-screen overflow-hidden bg-background">
+          <div className="text-center p-10">User not found. Redirecting to Home Page in {countdown}.</div>
+        </div>
+      </>
+    )
   }
+
 
   return (
     <div className="min-h-screen overflow-hidden bg-background">
@@ -152,7 +161,7 @@ const Profile: React.FC = () => {
           {posts.length > 0 ? (
             posts.map((post) => (
               <div key={post.id} className="border border-gray-200 rounded overflow-hidden shadow-sm">
-                <img src={post.url} className="w-full h-auto block object-cover aspect-square" />
+                <img src={post.photo} className="w-full h-auto block object-cover aspect-square" />
               </div>
             ))
           ) : (
