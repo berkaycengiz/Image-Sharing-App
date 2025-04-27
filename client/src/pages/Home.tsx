@@ -49,11 +49,12 @@ const Home: React.FC = () => {
         <SubmitButton onClick={open}>Create Post</SubmitButton>
         <hr className="my-5 border-secondary"/>
         
-        <h3 className="text-2xl font-extrabold text-primary mb-4">Posts</h3>
+        <h3 className="text-2xl font-extrabold text-primary mb-4">Latest Posts</h3>
         {loading ? (
         <div className="text-center p-20 text-primary text-2xl font-bold">Loading Posts...</div>
         ) : (
-          <div className="grid grid-cols-1 max-w-md gap-32">
+          <div className="flex justify-around">
+            <div className="grid grid-cols-1 max-w-lg gap-32">
             {posts.length > 0 ? (
               posts.map((post) => (
                 <div key={post._id} className="py-4 border-secondary bg-secondary rounded-xl overflow-hidden flex flex-col shadow-2xl">
@@ -83,15 +84,16 @@ const Home: React.FC = () => {
                   )}
                   <div className="flex gap-4 mt-2 px-6">
                     <Link to={`/profile/${post.postedBy.username}`} className="text-background text-xl font-bold hover:text-highlight cursor-pointer transition">{post.postedBy.username}</Link>
-                    <div className="text-background text-xl">{post.description}</div>
+                    <div className="text-background text-xl">{post.description.length > 28 ? `${post.description.substring(0, 28)}...` : post.description}</div>
                   </div>
                 </div>
               ))
             ) : (
               <p className="text-hover col-span-full text-center">No images shared yet.</p>
             )}
-        </div>
-      )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

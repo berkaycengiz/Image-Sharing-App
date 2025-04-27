@@ -7,6 +7,8 @@ import Navbar from "../layouts/Navbar";
 import { BsArrowRight, BsArrowLeft } from "react-icons/bs";
 import CircleButton from "../components/CircleButton";
 import { uploadProfilePic } from "../services/uploadService";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 
 const Register: React.FC = () => {
   const { username, email, password, confirmPassword, setUsername, setEmail, setPassword, setConfirmPassword } = useRegisterStore();
@@ -14,6 +16,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState("");
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [activeCard, setActiveCard] = useState<1 | 2>(1);
   
@@ -52,6 +55,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     if (password !== confirmPassword) {
       setError('Passwords do not match!');
       return;
@@ -62,6 +66,7 @@ const Register: React.FC = () => {
       navigate("/login");
     } 
     catch (err: any) {
+      setIsLoading(false);
       setError(err);
     }
   };
@@ -141,7 +146,13 @@ const Register: React.FC = () => {
             onChange={handleFileChange}
           />
           <CircleButton onClick={() => setActiveCard(1)}><BsArrowLeft className="text-2xl"></BsArrowLeft></CircleButton>
-          <SubmitButton>REGISTER</SubmitButton>
+          <SubmitButton disabled={isLoading} >
+            {isLoading ? (
+              <AiOutlineLoading3Quarters className="animate-spin text-2xl"/>
+            ) : (
+              'REGISTER'
+            )}
+          </SubmitButton>
         </form>
       </div>
     </div>

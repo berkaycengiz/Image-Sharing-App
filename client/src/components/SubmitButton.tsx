@@ -4,16 +4,21 @@ interface SubmitButtonProps {
     onClick?: () => void;
     children: React.ReactNode;
     style?: React.CSSProperties;
+    disabled?: boolean;
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ children, onClick, style }) => {
-
+const SubmitButton: React.FC<SubmitButtonProps> = ({ children, onClick, style, disabled }) => {
   return (
     <button
     type="submit"
     onClick={onClick}
     style={style}
-    className="w-full font-display flex flex-col items-center bg-secondary text-white py-2 rounded font-normal hover:bg-hover transition cursor-pointer">
+    disabled={disabled}
+    className={`w-full font-display flex flex-col items-center bg-secondary text-white py-2 rounded font-normal transition ${
+      disabled
+        ? 'opacity-50'
+        : 'hover:bg-hover cursor-pointer'
+    }`}>
         {children}
     </button>
   );

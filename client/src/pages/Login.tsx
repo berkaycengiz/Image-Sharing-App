@@ -7,6 +7,7 @@ import { useLoginStore } from "../store/loginStore";
 import Navbar from "../layouts/Navbar";
 import { useRememberMe } from "../store/rememberMe";
 import { useAuthStore } from "../store/authStore";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface FormData {
   email: string;
@@ -24,7 +25,9 @@ const Login: React.FC = () => {
   const { setEmail, setNickname } = useLoginStore();
 
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     if (isLoggedIn === true) {
@@ -51,6 +54,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await loginUser(email, password, rememberMe);
       setEmail(response.email);
@@ -58,6 +62,7 @@ const Login: React.FC = () => {
       navigate("/");
     } 
     catch (err: any) {
+      setIsLoading(false);
       setError(err);
     }
   };
@@ -88,7 +93,13 @@ const Login: React.FC = () => {
           <SliderCheckbox></SliderCheckbox>
           <Link to="/register" className="underline text-secondary mb-2 font-display hover:text-hover transition">
           Don't have an account yet?</Link>
-          <SubmitButton>LOGIN</SubmitButton>
+          <SubmitButton disabled={isLoading} >
+            {isLoading ? (
+              <AiOutlineLoading3Quarters className="animate-spin text-2xl"/>
+            ) : (
+              'LOGIN'
+            )}
+          </SubmitButton>
         </form>
       </div>
     </div>

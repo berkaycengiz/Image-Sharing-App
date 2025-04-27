@@ -133,7 +133,7 @@ const Profile: React.FC = () => {
                 <>
                   <label
                     htmlFor="profilePicInput"
-                    className="bg-primary/0 absolute w-36 h-36 mx-auto rounded-full cursor-pointer top-0 hover:bg-hover/50 transition duration-300"
+                    className="bg-primary/0 absolute w-full h-full rounded-full cursor-pointer top-0 hover:bg-hover/50 transition duration-300"
                   >
                     <div className="w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300">
                       <IoCameraOutline className='text-4xl text-highlight'></IoCameraOutline>
@@ -150,24 +150,29 @@ const Profile: React.FC = () => {
               )}
             </div>
 
-            <div className="flex-grow">
-              <h2 className="text-2xl font-normal text-primary mb-2">{user.username}</h2>
+            <div className="flex items-center gap-6">
+              <h2 className="text-2xl font-normal text-primary">{user.username}</h2>
                 {/* <p className="text-secondary-700">{user.connected ? "Connected" : "Not Connected"}</p> */}
             </div>
           </div>
+        
+        <p className="text-lg font-normal text-primary">{posts.length} Posts</p>
 
         <hr className="my-5 border-secondary" />
 
-        <h3 className="text-xl font-semibold text-primary mb-4">Posts</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {posts.length > 0 ? (
             posts.map((post) => (
               <Link to={`/profile/${post.postedBy.username}`} key={post._id} className="relative rounded-lg overflow-hidden shadow-sm bg-primary/0 cursor-pointer">
                 <img src={post.photo} className="w-full h-auto block object-cover aspect-square"/>
-                <div className="absolute inset-0 bg-primary/60 flex items-end opacity-0 hover:opacity-100 transition duration-400">
-                  <p className="text-white text-center p-4">{post.description}</p>
-                  <p className="text-white text-center p-2">{post.likeCount}<FaHeart></FaHeart></p>
-                  <p className="text-white text-center p-2">{post.viewCount}<GrView></GrView></p>
+                <div className="absolute inset-0 bg-primary/50 flex items-end opacity-0 hover:opacity-100 transition duration-400">
+                  <div className="bg-primary/80 w-full flex p-4 justify-between">
+                    <p className="text-white text-center">{post.description.length > 20 ? `${post.description.substring(0, 20)}...` : post.description}</p>
+                    <div className="flex gap-3">
+                      <p className="text-white font-light items-center gap-1.5 flex">{post.likeCount}<FaHeart></FaHeart></p>
+                      <p className="text-white font-light  items-center gap-1.5 flex">{post.viewCount}<GrView></GrView></p>
+                    </div>
+                  </div>
                 </div>
               </Link>
             ))
