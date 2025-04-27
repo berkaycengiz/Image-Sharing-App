@@ -1,7 +1,7 @@
 import { useModalStore } from "../store/modalStore";
 import CircleButton from "./CircleButton";
 import { RxCross2 } from "react-icons/rx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SubmitButton from "./SubmitButton";
 import { createPost } from "../services/createPostService";
@@ -44,12 +44,22 @@ export const PostModal = () => {
       setError(err);
     }
   };
-  
-  if (!isOpen) return null;
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden');
+    } 
+    else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isOpen]);
+  
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 overflow-hidden">
-      <div className="bg-white p-6 rounded-xl w-full max-w-md relative">
+    <div className={`fixed inset-0 flex items-center justify-center z-50 overflow-hidden transition-opacity duration-300 ${isOpen ? 'opacity-100 visible bg-primary/60 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`bg-white p-6 rounded-xl w-full max-w-md relative transition-transform transform duration-300 origin-center ${isOpen ? 'scale-100' : 'scale-0'}`}>
         <CircleButton onClick={close} style={{position: "absolute", top: "20px", right: "20px", fontSize: "20px", scale: "0.8"}}>
           <RxCross2></RxCross2>
         </CircleButton>

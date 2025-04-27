@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../layouts/Navbar';
 import { getUser } from '../services/userService';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useLoginStore } from '../store/loginStore';
 import { IoCameraOutline } from "react-icons/io5";
 import { updateProfilePic } from '../services/profilePictureService';
 import CircleButton from '../components/CircleButton';
 import { FaCheck } from 'react-icons/fa';
 import { getUserPosts } from '../services/getUserPostsService';
+import { FaHeart } from "react-icons/fa6";
+import { GrView } from "react-icons/gr";
 
 const Profile: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -160,9 +162,14 @@ const Profile: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {posts.length > 0 ? (
             posts.map((post) => (
-              <div key={post.id} className="border border-gray-200 rounded overflow-hidden shadow-sm">
-                <img src={post.photo} className="w-full h-auto block object-cover aspect-square" />
-              </div>
+              <Link to={`/profile/${post.postedBy.username}`} key={post._id} className="relative rounded-lg overflow-hidden shadow-sm bg-primary/0 cursor-pointer">
+                <img src={post.photo} className="w-full h-auto block object-cover aspect-square"/>
+                <div className="absolute inset-0 bg-primary/60 flex items-end opacity-0 hover:opacity-100 transition duration-400">
+                  <p className="text-white text-center p-4">{post.description}</p>
+                  <p className="text-white text-center p-2">{post.likeCount}<FaHeart></FaHeart></p>
+                  <p className="text-white text-center p-2">{post.viewCount}<GrView></GrView></p>
+                </div>
+              </Link>
             ))
           ) : (
             <p className="text-hover col-span-full text-center">No images shared yet.</p>
