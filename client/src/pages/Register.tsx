@@ -38,7 +38,8 @@ const Register: React.FC = () => {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    const { name } = event.target;
+    const value = event.target.value.trim();
     const setter = setters[name];
     if (setter) {
       setter(value);
@@ -87,6 +88,7 @@ const Register: React.FC = () => {
             placeholder="Username"
             value={username}
             onChange={handleChange}
+            maxLength={20}
             className="w-full px-3 py-2 border placeholder:text-secondary focus:outline-none focus:ring-1 focus:ring-primary text-secondary rounded mb-2"
           />
           <input
@@ -127,7 +129,7 @@ const Register: React.FC = () => {
           <label htmlFor="profilePicInput" className="cursor-pointer block w-36 h-36 mx-auto">
             <div className="w-full h-full border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-gray-400 hover:border-primary hover:text-primary transition duration-300 ease-in-out">
               {preview ? (
-                <img src={preview} className="w-34 h-34 rounded-full self-center object-cover" />
+                <img src={preview} className="w-34 h-34 rounded-full self-center object-cover" draggable="false"/>
               ) : (
                 <div className="text-center">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>

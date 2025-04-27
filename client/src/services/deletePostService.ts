@@ -2,9 +2,11 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_API_URL;
 
-export const getPosts = async () => {
+export const deletePost = async (id: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/posts`);
+    const response = await axios.delete(`${BASE_URL}/post/${id}`, {
+      withCredentials: true,
+    })
     return response.data;
   } 
   catch (error: any) {

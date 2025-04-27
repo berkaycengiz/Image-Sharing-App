@@ -118,16 +118,13 @@ const Profile: React.FC = () => {
             <div className="relative">
               {preview ? (
                 <div className="relative flex flex-col">
-                  <img src={preview} className="w-36 h-36 rounded-full object-cover border-4 border-hover" />
+                  <img src={preview} className="w-36 h-36 rounded-full object-cover border-4 border-hover" draggable="false" />
                   <CircleButton onClick={handleConfirm} style={{position: "absolute", zIndex: "5", top: "10px", scale: "0.8", fontSize: "20px"}}>
                     <FaCheck></FaCheck>
                   </CircleButton>
                 </div>
               ) : (
-                  <img
-                  src={user.profilePic}
-                  className="w-36 h-36 rounded-full object-cover border-4 border-hover"
-                  />
+                  <img src={user.profilePic} className="w-36 h-36 rounded-full object-cover border-4 border-hover" draggable="false"/>
               )}
               {nickname === user.username && (
                 <>
@@ -164,7 +161,7 @@ const Profile: React.FC = () => {
           {posts.length > 0 ? (
             posts.map((post) => (
               <Link to={`/profile/${post.postedBy.username}`} key={post._id} className="relative rounded-lg overflow-hidden shadow-sm bg-primary/0 cursor-pointer">
-                <img src={post.photo} className="w-full h-auto block object-cover aspect-square"/>
+                <img src={post.photo} className="w-full h-auto block object-cover aspect-square" draggable="false"/>
                 <div className="absolute inset-0 bg-primary/50 flex items-end opacity-0 hover:opacity-100 transition duration-400">
                   <div className="bg-primary/80 w-full flex p-4 justify-between">
                     <p className="text-white text-center">{post.description.length > 20 ? `${post.description.substring(0, 20)}...` : post.description}</p>

@@ -31,7 +31,7 @@ export const PostModal = () => {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
     setDescription(value);
-    if (value.length > 0){
+    if (value.trim().length > 0){
       setError('');
     }
     else {
@@ -43,7 +43,7 @@ export const PostModal = () => {
     setIsLoading(true);
     setError('');
     try {
-      await createPost(post, description!);
+      await createPost(post, description.trim()!);
       navigate(0);
       close();
     }
@@ -89,7 +89,7 @@ export const PostModal = () => {
         <label htmlFor="postInput" className={`cursor-pointer block w-48 h-48 mx-auto mb-8 ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
           <div className="w-full h-full border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center text-gray-400 hover:border-primary hover:text-primary transition duration-300 ease-in-out">
             {preview ? (
-              <img src={preview} alt="Post preview" className="w-full h-full rounded-md self-center object-cover" />
+              <img src={preview} className="w-full h-full rounded-md self-center object-cover" draggable="false" />
             ) : (
             <div className="text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
@@ -119,7 +119,7 @@ export const PostModal = () => {
         />
         <p className="text-secondary mb-4">{description.length}/120 characters</p>
         <div className="flex">
-          <SubmitButton style={{width: "20%"}} onClick={handleConfirm} disabled={isLoading || !post || !description}>
+          <SubmitButton style={{width: "20%"}} onClick={handleConfirm} disabled={isLoading || !post || !description.trim()}>
             {isLoading ? (
               <AiOutlineLoading3Quarters className="animate-spin text-2xl" />
             ) : (

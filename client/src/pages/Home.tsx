@@ -60,11 +60,11 @@ const Home: React.FC = () => {
                 <div key={post._id} className="py-4 border-secondary bg-secondary rounded-xl overflow-hidden flex flex-col shadow-2xl">
                   <div className="flex items-center gap-4 mb-4 px-6">
                     <Link to={`/profile/${post.postedBy.username}`} className="rounded-full">
-                    <img src={post.postedBy.profilePic} className="w-20 h-20 rounded-full object-cover border-2 border-hover"/>
+                    <img src={post.postedBy.profilePic} className="w-20 h-20 rounded-full object-cover border-2 border-hover" draggable="false"/>
                     </Link>
                     <Link to={`/profile/${post.postedBy.username}`} className="text-background text-2xl font-bold hover:text-highlight cursor-pointer transition">{post.postedBy.username}</Link>
                   </div>
-                  <img src={post.photo} className="w-full h-auto block object-cover aspect-square"/>
+                  <img src={post.photo} className="w-full h-auto block object-cover aspect-square" draggable="false"/>
                   <div className="flex justify-between items-center mt-4 px-6">
                     <div className="flex items-center gap-6">
                       <FaHeart className="text-3xl text-background cursor-pointer hover:text-highlight transition"></FaHeart>
