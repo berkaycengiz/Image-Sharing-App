@@ -44,8 +44,8 @@ export const PostModal = () => {
     setError('');
     try {
       await createPost(post, description.trim()!);
-      navigate(0);
       close();
+      navigate(0);
     }
     catch (err: any) {
       setError(err);

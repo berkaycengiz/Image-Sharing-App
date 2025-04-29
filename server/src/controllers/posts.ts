@@ -38,7 +38,7 @@ export const getPostsByUsername = async (req: express.Request, res: express.Resp
 export const newPost = async (req: RequestWithIdentity, res: express.Response): Promise<any> => {
     try{
         const {description} = req.body;
-        const user = req.identity;
+        const user = req.identity; //lodash get 2. yontem.
     
         if (!req.file || !description) {
             return res.status(400).json({ message: "Please make sure all fields are filled in correctly." });
@@ -105,6 +105,9 @@ export const updatePost = async (req: express.Request, res: express.Response): P
 
         if (description && description !== post.description) {
             post.description = description;
+        }
+        else{
+            return res.status(400).json({ message: "The description is already the same." });
         }
 
         await post.save();
