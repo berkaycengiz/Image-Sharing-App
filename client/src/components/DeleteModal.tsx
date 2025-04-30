@@ -31,12 +31,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ postId }) => {
     };
   }, [isOpenDelete]);
 
-  const handleDelete = async () => {
+  const handleConfirm = async () => {
     setIsLoading(true);
     try {
       await deletePost(postId);
       closeDelete();
-      navigate(0);
+      navigate("/");
     } 
     catch (err: any) {
       setError("An error occurred while deleting the post.");
@@ -80,7 +80,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ postId }) => {
         )}
         <p className="text-primary font-display mb-4"> Are you sure you want to delete this post? </p>
           <SubmitButton
-            onClick={handleDelete}
+            onClick={handleConfirm}
             disabled={isLoading}
             style={{
               width: "20%",

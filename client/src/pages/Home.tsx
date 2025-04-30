@@ -3,7 +3,7 @@ import Navbar from "../layouts/Navbar";
 import { useModalStore } from "../store/modalStore";
 import { PostModal } from "../components/PostModal";
 import SubmitButton from "../components/SubmitButton";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getPosts } from "../services/getAllPostsService";
 import { FaHeart } from "react-icons/fa6";
 import { FaComment } from "react-icons/fa";
@@ -12,7 +12,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import DropdownMenu from "../components/DropdownMenu";
 import { FaTrash } from "react-icons/fa";
 import { FaPencilAlt } from "react-icons/fa";import { useLoginStore } from "../store/loginStore";
-import { deletePost } from "../services/deletePostService";
 import UpdateModal from "../components/UpdateModal"
 import { useUpdateModalStore } from "../store/updateModalStore";
 import { useDeleteModalStore } from "../store/deleteModalStore";
@@ -32,10 +31,8 @@ const Home: React.FC = () => {
   
   const { nickname } = useLoginStore();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const loadProfileData = async () => {
+    const loadPosts = async () => {
       try {
         const posts = await getPosts();
         setLoading(true);
@@ -51,7 +48,7 @@ const Home: React.FC = () => {
       }
     };
 
-    loadProfileData();
+    loadPosts();
   }, []);
 
   if (error) {
@@ -121,7 +118,9 @@ const Home: React.FC = () => {
                       />
                     )}
                   </div>
-                  <img src={post.photo} className="w-full h-auto block object-cover aspect-square" draggable="false"/>
+                  <Link to={`/post/${post._id}`}>
+                    <img src={post.photo} className="w-full h-auto block object-cover aspect-square" draggable="false"/>
+                  </Link>
                   <div className="flex justify-between items-center mt-4 px-6">
                     <div className="flex items-center gap-6">
                       <FaHeart className="text-3xl text-background cursor-pointer hover:text-highlight transition"></FaHeart>

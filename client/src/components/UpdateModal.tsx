@@ -48,7 +48,7 @@ const UpdateModal: React.FC<UpdateModalProps> = ({
     try {
       await updatePost(postId, description.trim());
       closeUpdate();
-      navigate(0);
+      navigate("/");
     } 
     catch (err: any) {
       setError(err);
