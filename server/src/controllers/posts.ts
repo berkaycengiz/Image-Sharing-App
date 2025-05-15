@@ -3,6 +3,8 @@ import { deletePostById, getPostById, getPosts, createPost, getPostsByUserId } f
 import { RequestWithIdentity } from '../index.d';
 import { uploadFromBuffer } from '../helpers/cloudinaryHelper';
 import { getUserByUsername } from '../db/users';
+import { extractPublicIdFromUrl } from '../helpers/cloudinaryURLHelper';
+import { cloudinary } from '../config/cloudinaryConfig';
 
 
 export const getPost = async (req: express.Request, res: express.Response): Promise<any> => {
@@ -86,7 +88,15 @@ export const deletePost = async (req: express.Request, res: express.Response): P
     try{
         const {id} = req.params;
 
+        const post = await getPostById(id);
+
         const deletedPost = await deletePostById(id);
+
+        const publicId = extractPublicIdFromUrl(post.photo);
+
+        if(publicId) {
+            await cloudinary.uploader.destroy(publicId);
+        }
 
         return res.json(deletedPost);
     }

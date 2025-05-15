@@ -36,7 +36,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ postId }) => {
     try {
       await deletePost(postId);
       closeDelete();
-      navigate("/");
+      navigate(0);
     } 
     catch (err: any) {
       setError("An error occurred while deleting the post.");

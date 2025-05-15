@@ -2,6 +2,8 @@ import express from "express";
 import { getUserByEmail, createUser, getUserBySessionToken, getUserByUsername } from "../db/users";
 import { authentication, random } from "../helpers";
 import { uploadFromBuffer } from "../helpers/cloudinaryHelper";
+import { extractPublicIdFromUrl } from "../helpers/cloudinaryURLHelper";
+import { cloudinary } from "../config/cloudinaryConfig";
 
 export const authMe = async (req: express.Request, res: express.Response): Promise<any> => {
     try{
@@ -141,6 +143,8 @@ export const uploadPic = async (req: express.Request, res: express.Response): Pr
 
         const user = await getUserByUsername(username);
 
+        const publicId = extractPublicIdFromUrl(user.profilePic);
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -150,7 +154,11 @@ export const uploadPic = async (req: express.Request, res: express.Response): Pr
             const result = await uploadFromBuffer(req.file.buffer, options);
             user.profilePic = result.secure_url;
         }
-        
+
+        if (publicId && publicId !== "no-pic") {
+            await cloudinary.uploader.destroy(publicId);
+        }
+         
         await user.save();
 
         return res.status(200).json(user).end;
